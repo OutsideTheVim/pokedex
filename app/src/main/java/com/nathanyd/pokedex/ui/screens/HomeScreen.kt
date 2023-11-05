@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +24,11 @@ import com.nathanyd.pokedex.ui.theme.PokedexTheme
 
 //Home Page
 @Composable
-fun DefaultHomeScreen(modifier: Modifier = Modifier) {
+fun DefaultHomeScreen(onPokeClicked: () -> Unit, modifier: Modifier = Modifier) {
     LazyColumn {
         items(5) {
             PokeCard(
+                onPokeClicked = onPokeClicked,
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
@@ -34,10 +38,12 @@ fun DefaultHomeScreen(modifier: Modifier = Modifier) {
 }
 
 //Pokemon Card
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PokeCard(modifier: Modifier = Modifier) {
+fun PokeCard(onPokeClicked: () -> Unit, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.clickable{ },
+        onClick = onPokeClicked,
+        modifier = modifier,
         shape = RoundedCornerShape(
             topStart = 50.dp,
             bottomStart = 15.dp,
