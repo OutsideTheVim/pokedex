@@ -134,7 +134,6 @@ fun PokeCard(
         )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            //PokeGif(name = pokemonData.name, modifier = Modifier.size(74.dp))
             if(isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
             if(!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
             PokeName(name = pokemonData.name, fontSize = 24.sp)

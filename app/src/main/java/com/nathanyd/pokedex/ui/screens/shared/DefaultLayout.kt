@@ -134,7 +134,7 @@ fun ErrorScreen(onClick: () -> Unit) {
     ) {
         LoadingErrorImage()
         Text(
-            text = "Failed to load pokemon data, make sure you are connected to the internet",
+            text = stringResource(id = R.string.connection_error),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             modifier = Modifier

@@ -12,4 +12,6 @@
     <string name="number_question_title">What does %1$s mean?</string>
     <string name="number_question_desc">%1$s does NOT mean how strong the pokemon is or
         how high it stands on the leaderboard, it is the ID of the pokemon based on the original pokemon game data</string>
+
+    <string name="connection_error">Failed to load pokemon data, make sure you are connected to the internet</string>
 </resources>
