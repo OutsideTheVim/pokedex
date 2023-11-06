@@ -49,6 +49,7 @@ fun DefaultPokeScreen(modifier: Modifier = Modifier) {
         Box {
             PokeBackground()
             PokeImage(
+                id = 1,
                 modifier = Modifier
                     .size(184.dp)
                     .align(Alignment.Center)
@@ -66,7 +67,7 @@ fun PokeStatus() {
         mutableStateOf(false)
     }
 
-    if(questionBox) QuestionBox(
+    if (questionBox) QuestionBox(
         clicked = { questionBox = false },
         title = "What does #1 mean?",
         description = stringResource(id = R.string.number_question_desc, "#1")
