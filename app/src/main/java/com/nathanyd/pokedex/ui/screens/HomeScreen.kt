@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.nathanyd.pokedex.data.PokeData
 import com.nathanyd.pokedex.data.PokeDataResponse
 import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
@@ -52,7 +53,7 @@ fun DefaultAppScreen(
         is PokeUiState.Success -> DefaultHomeScreen(
             pokeUiState = pokeUiState,
             onPokeClicked = onPokeClicked,
-            data = pokeUiState.getData
+            data = pokeUiState.getNames
         )
 
         is PokeUiState.Error -> ErrorScreen(onClick = {}) // onclick nog fixxen
@@ -65,7 +66,7 @@ fun DefaultAppScreen(
 fun DefaultHomeScreen(
     pokeUiState: PokeUiState,
     onPokeClicked: () -> Unit,
-    data: List<String>,
+    data: List<PokeData>,
     modifier: Modifier = Modifier
 ) {
     var query by rememberSaveable { mutableStateOf("") }
@@ -87,9 +88,9 @@ fun DefaultHomeScreen(
 
         ) { innerPadding ->
         LazyColumn(modifier = modifier.padding(innerPadding)) {
-            items(data) { pokemonName ->
+            items(data) { pokemonData ->
                 PokeCard(
-                    nameOfPokemon = pokemonName,
+                    pokemonData = pokemonData,
                     onPokeClicked = onPokeClicked,
                     modifier = Modifier
                         .padding(8.dp)
@@ -102,7 +103,7 @@ fun DefaultHomeScreen(
 
 //Pokemon Card
 @Composable
-fun PokeCard(nameOfPokemon: String, onPokeClicked: () -> Unit, modifier: Modifier = Modifier) {
+fun PokeCard(pokemonData: PokeData, onPokeClicked: () -> Unit, modifier: Modifier = Modifier) {
     Card(
         onClick = onPokeClicked,
         modifier = modifier,
@@ -114,8 +115,8 @@ fun PokeCard(nameOfPokemon: String, onPokeClicked: () -> Unit, modifier: Modifie
         )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            PokeImage(modifier = Modifier.size(84.dp))
-            PokeName(name = nameOfPokemon, fontSize = 24.sp)
+            PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
+            PokeName(name = pokemonData.name, fontSize = 24.sp)
         }
     }
 }

@@ -21,13 +21,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.nathanyd.pokedex.R
 
-//small Image of the pokemon
+//Image of the pokemon
 @Composable
-fun PokeImage(modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(id = R.drawable.test_image),
+fun PokeImage(id: Int, modifier: Modifier = Modifier) {
+    AsyncImage(
+        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/$id.png",
         contentDescription = stringResource(id = R.string.test_name),
         modifier = modifier
     )

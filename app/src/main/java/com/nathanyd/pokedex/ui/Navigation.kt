@@ -25,8 +25,7 @@ import com.nathanyd.pokedex.ui.screens.shared.TopAppBarLayout
 
 //all pages in the app
 enum class Pages {
-    Home,
-    PokeData
+    Home, PokeData
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +41,7 @@ fun Navigation() {
             DefaultAppScreen(
                 onPokeClicked = {
                     navController.navigate(Pages.PokeData.name)
-                },
-                pokeUiState = pokeViewModel.pokeUiState
+                }, pokeUiState = pokeViewModel.pokeUiState
             )
         }
         composable(Pages.PokeData.name) {
