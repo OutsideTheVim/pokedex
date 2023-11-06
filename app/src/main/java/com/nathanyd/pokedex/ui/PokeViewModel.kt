@@ -11,7 +11,7 @@ import com.nathanyd.pokedex.network.PokeApi.pokemonService
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-
+//status screens
 sealed interface PokeUiState {
     data class Success(val getData: List<String>) : PokeUiState
     object Error : PokeUiState
@@ -32,8 +32,8 @@ class PokeViewModel : ViewModel() {
             pokeUiState = try {
                 val pokemonNames = mutableListOf<String>()
                 for(i in 1..10) {
-                    var listResult = pokemonService.getData("$i")
-                    pokemonNames.add(listResult.name)
+                    var data = pokemonService.getName("$i")
+                    pokemonNames.add(data.name)
                 }
                 PokeUiState.Success(pokemonNames)
             } catch (e: IOException) {

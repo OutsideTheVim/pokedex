@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.nathanyd.pokedex.ResultScreen
 import com.nathanyd.pokedex.data.PokeDataResponse
 import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
@@ -56,8 +55,8 @@ fun DefaultAppScreen(
             data = pokeUiState.getData
         )
 
-        is PokeUiState.Error -> com.nathanyd.pokedex.ErrorScreen(modifier = Modifier.fillMaxSize())
-        is PokeUiState.Loading -> com.nathanyd.pokedex.LoadingScreen(modifier = Modifier.fillMaxSize())
+        is PokeUiState.Error -> ErrorScreen(onClick = {}) // onclick nog fixxen
+        is PokeUiState.Loading -> LoadingScreen()
     }
 }
 

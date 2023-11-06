@@ -20,6 +20,8 @@ import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
 import com.nathanyd.pokedex.ui.screens.DefaultHomeScreen
 import com.nathanyd.pokedex.ui.screens.DefaultPokeScreen
+import com.nathanyd.pokedex.ui.screens.shared.ErrorScreen
+import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
 import com.nathanyd.pokedex.ui.screens.shared.PokeLayout
 import com.nathanyd.pokedex.ui.theme.PokedexTheme
 
@@ -28,7 +30,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PokedexTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+/*
 @Composable
 fun testScreen(
     pokeUiState: PokeUiState
@@ -72,3 +73,4 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Text("Loading")
 }
+*/
