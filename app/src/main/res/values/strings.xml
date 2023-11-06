@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Pokedex</string>
+
     <string name="test_name">bulbasaur</string>
     <string name="hp_stat">HP</string>
     <string name="defense_stat">Defense</string>
@@ -7,4 +8,8 @@
     <string name="speed_stat">Speed</string>
     <string name="spec_attack_stat">Special Attack</string>
     <string name="spec_defense_stat">Special Defense</string>
+
+    <string name="number_question_title">What does %1$s mean?</string>
+    <string name="number_question_desc">%1$s does NOT mean how strong the pokemon is or
+        how high it stands on the leaderboard, it is the ID of the pokemon based on the original pokemon game data</string>
 </resources>
