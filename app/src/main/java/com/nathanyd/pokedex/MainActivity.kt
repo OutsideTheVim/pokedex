@@ -1,19 +1,31 @@
 package com.nathanyd.pokedex
 
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.ImageLoader
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.size.OriginalSize
 import com.nathanyd.pokedex.data.PokeDataResponse
 import com.nathanyd.pokedex.ui.Navigation
 import com.nathanyd.pokedex.ui.PokeUiState
@@ -43,16 +55,10 @@ class MainActivity : ComponentActivity() {
 /*
 @Composable
 fun testScreen(
-    pokeUiState: PokeUiState
 ) {
-    when (pokeUiState) {
-        is PokeUiState.Success -> ResultScreen(
-            pokeUiState.getData, modifier = Modifier.fillMaxWidth()
-        )
-        is PokeUiState.Error -> ErrorScreen( modifier = Modifier.fillMaxSize())
-        is PokeUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
-    }
+
 }
+
 
 @Composable
 fun ResultScreen(data: List<String>, modifier: Modifier = Modifier) {

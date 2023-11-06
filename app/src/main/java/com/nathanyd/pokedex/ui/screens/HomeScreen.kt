@@ -19,6 +19,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +39,7 @@ import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
 import com.nathanyd.pokedex.ui.screens.shared.ErrorScreen
 import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
+import com.nathanyd.pokedex.ui.screens.shared.PokeGif
 import com.nathanyd.pokedex.ui.screens.shared.PokeImage
 import com.nathanyd.pokedex.ui.screens.shared.PokeName
 import com.nathanyd.pokedex.ui.screens.shared.SearchBarLayout
@@ -69,19 +71,30 @@ fun DefaultHomeScreen(
     data: List<PokeData>,
     modifier: Modifier = Modifier
 ) {
-    var query by rememberSaveable { mutableStateOf("") }
-    var active by rememberSaveable { mutableStateOf(false) }
+    var querySearch by rememberSaveable { mutableStateOf("") }
+    var activeSearch by rememberSaveable { mutableStateOf(false) }
+
+    var isSwitched by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+
     Scaffold(
         topBar = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TopAppBarLayout()
                 SearchBarLayout(
-                    query = query,
-                    onQueryChange = { query = it },
-                    onSearch = { query = it },
-                    active = active,
-                    onActiveChange = { active = it },
-                    modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
+                    query = querySearch,
+                    onQueryChange = { querySearch = it },
+                    onSearch = { querySearch = it },
+                    active = activeSearch,
+                    onActiveChange = { activeSearch = it },
+                    modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+                )
+                Switch(
+                    checked = isSwitched,
+                    onCheckedChange = { isSwitched = !isSwitched },
+                    modifier = Modifier.padding(8.dp)
                 )
             }
         },
@@ -90,6 +103,7 @@ fun DefaultHomeScreen(
         LazyColumn(modifier = modifier.padding(innerPadding)) {
             items(data) { pokemonData ->
                 PokeCard(
+                    isSwitched = isSwitched,
                     pokemonData = pokemonData,
                     onPokeClicked = onPokeClicked,
                     modifier = Modifier
@@ -103,7 +117,12 @@ fun DefaultHomeScreen(
 
 //Pokemon Card
 @Composable
-fun PokeCard(pokemonData: PokeData, onPokeClicked: () -> Unit, modifier: Modifier = Modifier) {
+fun PokeCard(
+    isSwitched: Boolean,
+    pokemonData: PokeData,
+    onPokeClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         onClick = onPokeClicked,
         modifier = modifier,
@@ -115,7 +134,9 @@ fun PokeCard(pokemonData: PokeData, onPokeClicked: () -> Unit, modifier: Modifie
         )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
+            //PokeGif(name = pokemonData.name, modifier = Modifier.size(74.dp))
+            if(isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
+            if(!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
             PokeName(name = pokemonData.name, fontSize = 24.sp)
         }
     }
