@@ -14,9 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.nathanyd.pokedex.ui.screens.DefaultAppScreen
 import com.nathanyd.pokedex.ui.screens.DefaultHomeScreen
 import com.nathanyd.pokedex.ui.screens.DefaultPokeScreen
 import com.nathanyd.pokedex.ui.screens.shared.TopAppBarLayout
@@ -36,10 +38,13 @@ fun Navigation() {
     }
     NavHost(navController = navController, startDestination = Pages.Home.name) {
         composable(Pages.Home.name) {
-            DefaultHomeScreen(
+            val pokeViewModel: PokeViewModel = viewModel()
+            DefaultAppScreen(
                 onPokeClicked = {
                     navController.navigate(Pages.PokeData.name)
-                })
+                },
+                pokeUiState = pokeViewModel.pokeUiState
+            )
         }
         composable(Pages.PokeData.name) {
             DefaultPokeScreen()

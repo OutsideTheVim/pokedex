@@ -44,9 +44,9 @@ fun PokeIcon() {
 
 //Name of the pokemon
 @Composable
-fun PokeName(fontSize: TextUnit) {
+fun PokeName(name: String, fontSize: TextUnit) {
     Text(
-        text = stringResource(id = R.string.test_name),
+        text = name,
         fontSize = fontSize
     )
 }

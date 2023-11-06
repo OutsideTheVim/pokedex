@@ -86,7 +86,7 @@ fun SearchBarLayout(
             repeat(3) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     PokeIcon()
-                    PokeName(fontSize = 18.sp)
+                    PokeName("bulbasaur", fontSize = 18.sp)
                 }
             }
         }
@@ -117,4 +117,14 @@ fun QuestionBox(
             }
         }
     )
+}
+
+@Composable
+fun ErrorScreen() {
+    Text("Error")
+}
+
+@Composable
+fun LoadingScreen() {
+    Text("Loading")
 }
