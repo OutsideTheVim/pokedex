@@ -15,9 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.nathanyd.pokedex.data.PokeData
 import com.nathanyd.pokedex.ui.screens.DefaultAppScreen
 import com.nathanyd.pokedex.ui.screens.DefaultHomeScreen
 import com.nathanyd.pokedex.ui.screens.DefaultPokeScreen
@@ -32,20 +35,26 @@ enum class Pages {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val currentRoute by remember {
-        mutableStateOf(navController.currentBackStackEntry?.destination?.route)
-    }
+
     NavHost(navController = navController, startDestination = Pages.Home.name) {
         composable(Pages.Home.name) {
             val pokeViewModel: PokeViewModel = viewModel()
             DefaultAppScreen(
-                onPokeClicked = {
-                    navController.navigate(Pages.PokeData.name)
-                }, pokeUiState = pokeViewModel.pokeUiState
+                navController = navController,
+                pokeUiState = pokeViewModel.pokeUiState
             )
         }
-        composable(Pages.PokeData.name) {
-            DefaultPokeScreen()
+        composable("${Pages.PokeData.name}/{pokeName}/{pokeId}",
+            arguments = listOf(
+                navArgument("pokeName") { type = NavType.StringType },
+                navArgument("pokeId") { type = NavType.IntType }
+            )
+        ) {
+
+            val pokeName = it.arguments?.getString("pokeName")
+            val pokeId = it.arguments?.getInt("pokeId")
+
+            DefaultPokeScreen(pokeName, pokeId)
         }
     }
 }

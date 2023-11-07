@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,30 +39,57 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nathanyd.pokedex.R
+import com.nathanyd.pokedex.data.PokeData
+import com.nathanyd.pokedex.ui.screens.shared.ButtonSwitch
+import com.nathanyd.pokedex.ui.screens.shared.PokeGif
 import com.nathanyd.pokedex.ui.screens.shared.PokeImage
 import com.nathanyd.pokedex.ui.screens.shared.PokeType
 import com.nathanyd.pokedex.ui.screens.shared.QuestionBox
 
 //Screen for Pokemon info page
 @Composable
-fun DefaultPokeScreen(modifier: Modifier = Modifier) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun DefaultPokeScreen(pokeName: String?, pokeId: Int?, modifier: Modifier = Modifier) {
+
+    var isSwitched by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Box {
             PokeBackground()
-            PokeImage(
-                id = 1,
+            if(isSwitched) PokeGif(
+                name = pokeName ?: "bulbasaur",
                 modifier = Modifier
                     .size(184.dp)
                     .align(Alignment.Center)
             )
+            if(!isSwitched) PokeImage(
+                id = pokeId ?: 0,
+                modifier = Modifier
+                    .size(184.dp)
+                    .align(Alignment.Center)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                ButtonSwitch(
+                    isSwitched = isSwitched,
+                    onCheckChanged = { isSwitched = !isSwitched },
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
-        PokeStatus()
+        PokeStatus(pokeName, pokeId)
     }
 }
 
 //Pokemon information card
 @Composable
-fun PokeStatus() {
+fun PokeStatus(pokeName: String?, pokeId: Int?) {
 
     var questionBox: Boolean by remember {
         mutableStateOf(false)
@@ -69,14 +97,14 @@ fun PokeStatus() {
 
     if (questionBox) QuestionBox(
         clicked = { questionBox = false },
-        title = "What does #1 mean?",
-        description = stringResource(id = R.string.number_question_desc, "#1")
+        title = stringResource(id = R.string.number_question_title, "#$pokeId"),
+        description = stringResource(id = R.string.number_question_desc, "#$pokeId")
     )
 
     Column {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = stringResource(id = R.string.test_name),
+                text = pokeName ?: "Failed to load name",
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -97,7 +125,7 @@ fun PokeStatus() {
         Spacer(modifier = Modifier.weight(1f))
         Row {
             Text(
-                text = "#1",
+                text = "#${pokeId ?: "Failed to load ID"}",
                 modifier = Modifier.padding(bottom = 48.dp),
                 fontSize = 48.sp,
                 fontWeight = FontWeight.Bold

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.nathanyd.pokedex.ui.screens.shared
 
@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -88,6 +89,19 @@ fun SearchBarLayout(
             }
         }
     }
+}
+
+@Composable
+fun ButtonSwitch(
+    isSwitched: Boolean,
+    onCheckChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Switch(
+        checked = isSwitched,
+        onCheckedChange = onCheckChanged,
+        modifier = modifier
+    )
 }
 
 //Layout for alert/question box

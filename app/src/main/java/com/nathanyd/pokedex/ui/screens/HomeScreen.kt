@@ -33,10 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.nathanyd.pokedex.data.PokeData
 import com.nathanyd.pokedex.data.PokeDataResponse
+import com.nathanyd.pokedex.ui.Pages
 import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
+import com.nathanyd.pokedex.ui.screens.shared.ButtonSwitch
 import com.nathanyd.pokedex.ui.screens.shared.ErrorScreen
 import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
 import com.nathanyd.pokedex.ui.screens.shared.PokeGif
@@ -49,12 +52,12 @@ import com.nathanyd.pokedex.ui.theme.PokedexTheme
 @Composable
 fun DefaultAppScreen(
     pokeUiState: PokeUiState,
-    onPokeClicked: () -> Unit,
+    navController: NavController
 ) {
     when (pokeUiState) {
         is PokeUiState.Success -> DefaultHomeScreen(
             pokeUiState = pokeUiState,
-            onPokeClicked = onPokeClicked,
+            navController = navController,
             data = pokeUiState.getNames
         )
 
@@ -67,7 +70,7 @@ fun DefaultAppScreen(
 @Composable
 fun DefaultHomeScreen(
     pokeUiState: PokeUiState,
-    onPokeClicked: () -> Unit,
+    navController: NavController,
     data: List<PokeData>,
     modifier: Modifier = Modifier
 ) {
@@ -91,9 +94,9 @@ fun DefaultHomeScreen(
                     onActiveChange = { activeSearch = it },
                     modifier = Modifier.padding(start = 24.dp, end = 24.dp)
                 )
-                Switch(
-                    checked = isSwitched,
-                    onCheckedChange = { isSwitched = !isSwitched },
+                ButtonSwitch(
+                    isSwitched = isSwitched,
+                    onCheckChanged = { isSwitched = !isSwitched },
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -105,7 +108,7 @@ fun DefaultHomeScreen(
                 PokeCard(
                     isSwitched = isSwitched,
                     pokemonData = pokemonData,
-                    onPokeClicked = onPokeClicked,
+                    navController = navController,
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
@@ -120,11 +123,11 @@ fun DefaultHomeScreen(
 fun PokeCard(
     isSwitched: Boolean,
     pokemonData: PokeData,
-    onPokeClicked: () -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = onPokeClicked,
+        onClick = { navController.navigate("${Pages.PokeData.name}/${pokemonData.name}/${pokemonData.id}") },
         modifier = modifier,
         shape = RoundedCornerShape(
             topStart = 50.dp,
@@ -134,8 +137,8 @@ fun PokeCard(
         )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if(isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
-            if(!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
+            if (isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
+            if (!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
             PokeName(name = pokemonData.name, fontSize = 24.sp)
         }
     }
