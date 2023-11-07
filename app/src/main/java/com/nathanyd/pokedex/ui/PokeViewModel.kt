@@ -1,6 +1,7 @@
 package com.nathanyd.pokedex.ui
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,8 @@ sealed interface PokeUiState {
 }
 
 class PokeViewModel : ViewModel() {
+
+    var amount by mutableIntStateOf(0)
 
     var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading)
         private set
