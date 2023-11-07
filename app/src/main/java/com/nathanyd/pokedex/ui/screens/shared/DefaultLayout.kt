@@ -1,4 +1,5 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+@file:OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
     ExperimentalMaterial3Api::class
 )
 
@@ -24,6 +25,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -43,6 +48,7 @@ fun PokeLayout() {
 }
 
 //Layout for Top Bar
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarLayout(modifier: Modifier = Modifier) {
     Column(
@@ -84,11 +90,31 @@ fun SearchBarLayout(
         placeholder = { Text(placeholder) },
         modifier = modifier
     ) {
+
         Column {
-            pokeData.take(7).forEach { data ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    PokeIcon(id = data.id, name = data.name, modifier = Modifier.size(74.dp))
-                    PokeName(data.name, fontSize = 18.sp)
+            if (query.length > 0) {
+                for (data in pokeData) {
+                    if (data.name.contains(query, ignoreCase = true)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            PokeIcon(
+                                id = data.id,
+                                name = data.name,
+                                modifier = Modifier.size(74.dp)
+                            )
+                            PokeName(data.name, fontSize = 18.sp)
+                        }
+                    }
+                }
+            } else {
+                pokeData.take(7).forEach { data ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        PokeIcon(
+                            id = data.id,
+                            name = data.name,
+                            modifier = Modifier.size(74.dp)
+                        )
+                        PokeName(data.name, fontSize = 18.sp)
+                    }
                 }
             }
         }

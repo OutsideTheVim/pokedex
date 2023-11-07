@@ -60,13 +60,13 @@ fun DefaultPokeScreen(pokeName: String?, pokeId: Int?, modifier: Modifier = Modi
     ) {
         Box {
             PokeBackground()
-            if(isSwitched) PokeGif(
+            if (isSwitched) PokeGif(
                 name = pokeName ?: "bulbasaur",
                 modifier = Modifier
                     .size(184.dp)
                     .align(Alignment.Center)
             )
-            if(!isSwitched) PokeImage(
+            if (!isSwitched) PokeImage(
                 id = pokeId ?: 0,
                 modifier = Modifier
                     .size(184.dp)
