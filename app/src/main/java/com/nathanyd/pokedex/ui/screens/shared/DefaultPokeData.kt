@@ -66,11 +66,11 @@ fun PokeGif(name: String, modifier: Modifier = Modifier) {
 
 //Icon of the pokemon
 @Composable
-fun PokeIcon() {
-    Image(
-        painter = painterResource(id = R.drawable.test_icon),
-        contentDescription = null,
-        modifier = Modifier.size(64.dp)
+fun PokeIcon(id: Int, name: String, modifier: Modifier = Modifier) {
+    AsyncImage(
+        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png",
+        contentDescription = name,
+        modifier = modifier
     )
 }
 
