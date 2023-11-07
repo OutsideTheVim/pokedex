@@ -56,7 +56,6 @@ fun DefaultAppScreen(
 ) {
     when (pokeUiState) {
         is PokeUiState.Success -> DefaultHomeScreen(
-            pokeUiState = pokeUiState,
             navController = navController,
             data = pokeUiState.getNames
         )
@@ -69,7 +68,6 @@ fun DefaultAppScreen(
 //Home Page
 @Composable
 fun DefaultHomeScreen(
-    pokeUiState: PokeUiState,
     navController: NavController,
     data: List<PokeData>,
     modifier: Modifier = Modifier
@@ -92,7 +90,8 @@ fun DefaultHomeScreen(
                     onSearch = { querySearch = it },
                     active = activeSearch,
                     onActiveChange = { activeSearch = it },
-                    modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+                    modifier = Modifier.padding(start = 24.dp, end = 24.dp),
+                    pokeData = data
                 )
                 ButtonSwitch(
                     isSwitched = isSwitched,

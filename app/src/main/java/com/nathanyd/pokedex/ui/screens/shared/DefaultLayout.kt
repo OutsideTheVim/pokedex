@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nathanyd.pokedex.R
+import com.nathanyd.pokedex.data.PokeData
 
 //App Layout
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +70,8 @@ fun SearchBarLayout(
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
     active: Boolean,
-    onActiveChange: (Boolean) -> Unit
+    onActiveChange: (Boolean) -> Unit,
+    pokeData: List<PokeData>
 ) {
     SearchBar(
         query = query,
@@ -81,10 +83,10 @@ fun SearchBarLayout(
         modifier = modifier
     ) {
         Column {
-            repeat(3) {
+            pokeData.take(7).forEach { data ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    PokeIcon()
-                    PokeName("bulbasaur", fontSize = 18.sp)
+                    PokeIcon(id = data.id, name = data.name, modifier = Modifier.size(74.dp))
+                    PokeName(data.name, fontSize = 18.sp)
                 }
             }
         }
