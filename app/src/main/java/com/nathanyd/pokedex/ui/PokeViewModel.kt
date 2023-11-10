@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nathanyd.pokedex.data.PokeData
 import com.nathanyd.pokedex.data.PokeDataResponse
+import com.nathanyd.pokedex.data.Type
 import com.nathanyd.pokedex.network.PokeApi
 import com.nathanyd.pokedex.network.PokeApi.pokemonService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -24,9 +26,9 @@ sealed interface PokeUiState {
 class PokeViewModel : ViewModel() {
 
     //Amount of pokemons that needs to be loaded
-    private var _amount by mutableIntStateOf(20)
+    private var _amount by mutableIntStateOf(50)
 
-    var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading(0,_amount))
+    var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading(0, _amount))
         private set
 
     init {
@@ -54,7 +56,7 @@ class PokeViewModel : ViewModel() {
     }
 
     fun getTypeColor(type: String): Long {
-        return when(type) {
+        return when (type) {
             "normal" -> 0xFFA8A77A
             "fire" -> 0xFFEE8130
             "water" -> 0xFF6390F0
@@ -80,3 +82,51 @@ class PokeViewModel : ViewModel() {
     }
 
 }
+
+class PokeScreenViewModel : ViewModel() {
+        var pokeScreenUiState: PokeUiState by mutableStateOf(PokeUiState.Loading(0, 1))
+            private set
+
+        fun getSinglePokeData(id: Int) {
+            viewModelScope.launch {
+                delay(500)
+                pokeScreenUiState = try {
+                    val pokemonNames = mutableListOf<PokeData>()
+
+                    var data = pokemonService.getName("$id")
+
+                    pokemonNames.add(PokeData(name = data.name, id = data.id, types = data.types))
+
+                    PokeUiState.Success(pokemonNames)
+                } catch (e: IOException) {
+                    PokeUiState.Error
+                }
+            }
+        }
+
+        fun getTypeColor(type: String): Long {
+            return when (type) {
+                "normal" -> 0xFFA8A77A
+                "fire" -> 0xFFEE8130
+                "water" -> 0xFF6390F0
+                "electric" -> 0xFFF7D02C
+                "grass" -> 0xFF7AC74C
+                "ice" -> 0xFF96D9D6
+                "fighting" -> 0xFFC22E28
+                "poison" -> 0xFFA33EA1
+                "ground" -> 0xFFE2BF65
+                "flying" -> 0xFFA98FF3
+                "psychic" -> 0xFFF95587
+                "bug" -> 0xFFA6B91A
+                "rock" -> 0xFFB6A136
+                "ghost" -> 0xFF735797
+                "dragon" -> 0xFF6F35FC
+                "dark" -> 0xFF6F35FC
+                "steel" -> 0xFFB7B7CE
+                "fairy" -> 0xFFD685AD
+                else -> {
+                    0xFF080100
+                }
+            }
+        }
+    }

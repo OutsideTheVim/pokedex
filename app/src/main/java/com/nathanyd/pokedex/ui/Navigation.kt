@@ -1,30 +1,16 @@
 package com.nathanyd.pokedex.ui
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.nathanyd.pokedex.data.PokeData
 import com.nathanyd.pokedex.ui.screens.DefaultAppScreen
-import com.nathanyd.pokedex.ui.screens.DefaultHomeScreen
 import com.nathanyd.pokedex.ui.screens.DefaultPokeScreen
-import com.nathanyd.pokedex.ui.screens.shared.TopAppBarLayout
+import com.nathanyd.pokedex.ui.screens.VerifyPokeScreen
 
 //all pages in the app
 enum class Pages {
@@ -44,17 +30,21 @@ fun Navigation() {
                 pokeUiState = pokeViewModel.pokeUiState
             )
         }
-        composable("${Pages.PokeData.name}/{pokeName}/{pokeId}",
+        composable(
+            "${Pages.PokeData.name}/{pokeId}",
             arguments = listOf(
-                navArgument("pokeName") { type = NavType.StringType },
                 navArgument("pokeId") { type = NavType.IntType }
             )
         ) {
 
-            val pokeName = it.arguments?.getString("pokeName")
             val pokeId = it.arguments?.getInt("pokeId")
 
-            DefaultPokeScreen(pokeName, pokeId)
+            val pokeViewModel: PokeScreenViewModel = viewModel()
+
+            VerifyPokeScreen(
+                pokeUiState = pokeViewModel.pokeScreenUiState,
+                pokeId = pokeId
+            )
         }
     }
 }

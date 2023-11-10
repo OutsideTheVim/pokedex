@@ -6,11 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -133,8 +135,19 @@ fun PokeCard(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
+
+    val types: ArrayList<String> = ArrayList()
+
+    pokemonData.types.forEach {
+        types.add(it.type.name)
+    }
+
     Card(
-        onClick = { navController.navigate("${Pages.PokeData.name}/${pokemonData.name}/${pokemonData.id}") },
+        onClick = {
+            navController.navigate(
+                "${Pages.PokeData.name}/${pokemonData.id}"
+            )
+        },
         modifier = modifier,
         shape = RoundedCornerShape(
             topStart = 50.dp,
@@ -146,9 +159,14 @@ fun PokeCard(
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
             if (!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
-            PokeName(name = pokemonData.name, fontSize = 24.sp)
-            pokemonData.types.forEach {
-                PokeType(type = it.type.name)
+            PokeName(name = pokemonData.name, fontSize = 24.sp, modifier = Modifier.padding(start = 8.dp))
+            Spacer(Modifier.weight(1f))
+            Card(modifier = Modifier.padding(end = 34.dp)) {
+                Row {
+                    pokemonData.types.forEach {
+                        PokeType(type = it.type.name)
+                    }
+                }
             }
         }
     }
