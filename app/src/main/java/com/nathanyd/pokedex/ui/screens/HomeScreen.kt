@@ -23,6 +23,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -52,16 +53,23 @@ import com.nathanyd.pokedex.ui.theme.PokedexTheme
 @Composable
 fun DefaultAppScreen(
     pokeUiState: PokeUiState,
-    navController: NavController
+    navController: NavController,
+    pokeViewModel: PokeViewModel = viewModel()
 ) {
+
     when (pokeUiState) {
         is PokeUiState.Success -> DefaultHomeScreen(
             navController = navController,
             data = pokeUiState.getNames
         )
 
-        is PokeUiState.Error -> ErrorScreen(onClick = {}) // onclick nog fixxen
-        is PokeUiState.Loading -> LoadingScreen()
+        is PokeUiState.Error -> ErrorScreen(onClick = {
+            pokeViewModel.getPokeData()
+        }) // onclick nog fixxen
+        is PokeUiState.Loading -> LoadingScreen(
+            count = pokeUiState.count,
+            amount = pokeUiState.amount
+        )
     }
 }
 
@@ -78,7 +86,6 @@ fun DefaultHomeScreen(
     var isSwitched by rememberSaveable {
         mutableStateOf(false)
     }
-
 
     Scaffold(
         topBar = {

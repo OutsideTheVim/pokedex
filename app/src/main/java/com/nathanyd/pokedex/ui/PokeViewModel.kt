@@ -1,6 +1,7 @@
 package com.nathanyd.pokedex.ui
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,14 +18,14 @@ import java.io.IOException
 sealed interface PokeUiState {
     data class Success(val getNames: List<PokeData>) : PokeUiState
     object Error : PokeUiState
-    object Loading : PokeUiState
+    data class Loading(val count: Int, val amount: Int) : PokeUiState
 }
 
 class PokeViewModel : ViewModel() {
 
-    var amount by mutableIntStateOf(0)
+    private var _amount by mutableIntStateOf(20)
 
-    var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading)
+    var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading(0,_amount))
         private set
 
     init {
@@ -32,17 +33,18 @@ class PokeViewModel : ViewModel() {
     }
 
     fun getPokeData() {
+        pokeUiState = PokeUiState.Loading(0, _amount)
         viewModelScope.launch {
             pokeUiState = try {
                 val pokemonNames = mutableListOf<PokeData>()
 
-                for (i in 1..50) {
+                for (i in 1.._amount) {
                     var data = pokemonService.getName("$i")
                     pokemonNames.add(PokeData(name = data.name, id = data.id))
+                    pokeUiState = PokeUiState.Loading(i, _amount)
                 }
 
                 PokeUiState.Success(pokemonNames)
-
             } catch (e: IOException) {
                 PokeUiState.Error
             }
