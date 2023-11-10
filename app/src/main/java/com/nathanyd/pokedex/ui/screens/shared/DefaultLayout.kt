@@ -39,8 +39,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nathanyd.pokedex.R
 import com.nathanyd.pokedex.data.PokeData
+import com.nathanyd.pokedex.ui.PokeViewModel
 
 //App Layout
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +95,7 @@ fun SearchBarLayout(
     ) {
 
         Column {
-            if (query.length > 0) {
+            if (query.isNotEmpty()) {
                 for (data in pokeData) {
                     if (data.name.contains(query, ignoreCase = true)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -207,13 +209,19 @@ fun LoadingImage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
+fun LoadingScreen(modifier: Modifier = Modifier, count: Int, amount: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         LoadingImage()
         Spacer(modifier = Modifier.height(74.dp))
+        Text(
+            text = "$count/$amount",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(24.dp)
+        )
         LinearProgressIndicator()
     }
 }

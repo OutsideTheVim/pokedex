@@ -23,6 +23,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -45,6 +46,7 @@ import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
 import com.nathanyd.pokedex.ui.screens.shared.PokeGif
 import com.nathanyd.pokedex.ui.screens.shared.PokeImage
 import com.nathanyd.pokedex.ui.screens.shared.PokeName
+import com.nathanyd.pokedex.ui.screens.shared.PokeType
 import com.nathanyd.pokedex.ui.screens.shared.SearchBarLayout
 import com.nathanyd.pokedex.ui.screens.shared.TopAppBarLayout
 import com.nathanyd.pokedex.ui.theme.PokedexTheme
@@ -52,16 +54,23 @@ import com.nathanyd.pokedex.ui.theme.PokedexTheme
 @Composable
 fun DefaultAppScreen(
     pokeUiState: PokeUiState,
-    navController: NavController
+    navController: NavController,
+    pokeViewModel: PokeViewModel = viewModel()
 ) {
+
     when (pokeUiState) {
         is PokeUiState.Success -> DefaultHomeScreen(
             navController = navController,
             data = pokeUiState.getNames
         )
 
-        is PokeUiState.Error -> ErrorScreen(onClick = {}) // onclick nog fixxen
-        is PokeUiState.Loading -> LoadingScreen()
+        is PokeUiState.Error -> ErrorScreen(onClick = {
+            pokeViewModel.getPokeData()
+        }) // onclick nog fixxen
+        is PokeUiState.Loading -> LoadingScreen(
+            count = pokeUiState.count,
+            amount = pokeUiState.amount
+        )
     }
 }
 
@@ -78,7 +87,6 @@ fun DefaultHomeScreen(
     var isSwitched by rememberSaveable {
         mutableStateOf(false)
     }
-
 
     Scaffold(
         topBar = {
@@ -139,6 +147,9 @@ fun PokeCard(
             if (isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
             if (!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
             PokeName(name = pokemonData.name, fontSize = 24.sp)
+            pokemonData.types.forEach {
+                PokeType(type = it.type.name)
+            }
         }
     }
 }
