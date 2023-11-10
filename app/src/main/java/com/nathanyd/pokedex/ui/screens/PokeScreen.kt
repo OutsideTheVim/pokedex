@@ -146,12 +146,11 @@ fun PokeStatus(data: PokeData) {
                 }
             }
         }
-        StatsBar("HP", 0.45f)
-        StatsBar("Attack", 0.49f)
-        StatsBar("Defense", 0.49f)
-        StatsBar("Speed", 0.45f)
-        StatsBar("Special Attack", 0.65f)
-        StatsBar("Special Defense", 0.65f)
+
+        data.stats?.forEach {
+            StatsBar(nameStat = it.stat.name, stat = "0.${it.base_stat}f".toFloat())
+        }
+
         Spacer(modifier = Modifier.weight(1f))
         Row {
             Text(
