@@ -111,8 +111,8 @@ fun PokeStatus(pokeName: String?, pokeId: Int?) {
             Spacer(modifier = Modifier.width(14.dp))
             Card {
                 Row {
-                    PokeType(color = 0xFF027820)
-                    PokeType(color = 0xFF4d0245)
+                    PokeType(type = "grass")
+                    PokeType(type = "poison")
                 }
             }
         }

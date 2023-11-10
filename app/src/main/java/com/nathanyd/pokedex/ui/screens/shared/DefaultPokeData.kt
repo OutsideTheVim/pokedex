@@ -24,12 +24,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.nathanyd.pokedex.R
+import com.nathanyd.pokedex.ui.PokeViewModel
 
 //Image of the pokemon
 @Composable
@@ -85,11 +87,19 @@ fun PokeName(name: String, fontSize: TextUnit) {
 
 // water, grass etc. change background color matching result
 @Composable
-fun PokeType(color: Long) {
+fun PokeType(type: String) {
+
+    //grass: 0xFF027820
+    //poison: 0xFF4d0245
+
+    val pokeViewModel: PokeViewModel = viewModel()
+
+    val correctColor: Long = pokeViewModel.getTypeColor(type)
+
     Text(
         text = "",
         Modifier
-            .background(Color(color))
+            .background(Color(correctColor))
             .size(20.dp)
     )
 }

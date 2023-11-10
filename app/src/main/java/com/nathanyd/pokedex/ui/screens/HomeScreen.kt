@@ -46,6 +46,7 @@ import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
 import com.nathanyd.pokedex.ui.screens.shared.PokeGif
 import com.nathanyd.pokedex.ui.screens.shared.PokeImage
 import com.nathanyd.pokedex.ui.screens.shared.PokeName
+import com.nathanyd.pokedex.ui.screens.shared.PokeType
 import com.nathanyd.pokedex.ui.screens.shared.SearchBarLayout
 import com.nathanyd.pokedex.ui.screens.shared.TopAppBarLayout
 import com.nathanyd.pokedex.ui.theme.PokedexTheme
@@ -146,6 +147,9 @@ fun PokeCard(
             if (isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
             if (!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
             PokeName(name = pokemonData.name, fontSize = 24.sp)
+            pokemonData.types.forEach {
+                PokeType(type = it.type.name)
+            }
         }
     }
 }
