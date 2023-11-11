@@ -6,10 +6,12 @@
 package com.nathanyd.pokedex.ui.screens.shared
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,8 +42,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.nathanyd.pokedex.R
 import com.nathanyd.pokedex.data.PokeData
+import com.nathanyd.pokedex.ui.Pages
 import com.nathanyd.pokedex.ui.PokeViewModel
 
 //App Layout
@@ -82,7 +86,8 @@ fun SearchBarLayout(
     onSearch: (String) -> Unit,
     active: Boolean,
     onActiveChange: (Boolean) -> Unit,
-    pokeData: List<PokeData>
+    pokeData: List<PokeData>,
+    navController: NavController
 ) {
     SearchBar(
         query = query,
@@ -98,7 +103,15 @@ fun SearchBarLayout(
             if (query.isNotEmpty()) {
                 for (data in pokeData) {
                     if (data.name.contains(query, ignoreCase = true)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { // nog betere oplossing voor maken
+                                    navController.navigate(
+                                        "${Pages.PokeData.name}/${data.id}"
+                                    )
+                                }) {
                             PokeIcon(
                                 id = data.id,
                                 name = data.name,
@@ -110,7 +123,15 @@ fun SearchBarLayout(
                 }
             } else {
                 pokeData.take(7).forEach { data ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { // nog betere oplossing voor maken
+                                navController.navigate(
+                                    "${Pages.PokeData.name}/${data.id}"
+                                )
+                            }) {
                         PokeIcon(
                             id = data.id,
                             name = data.name,

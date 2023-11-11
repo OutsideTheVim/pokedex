@@ -147,8 +147,19 @@ fun PokeStatus(data: PokeData) {
             }
         }
 
+        var stat: Float
+        var increase: Int
+
         data.stats?.forEach {
-            StatsBar(nameStat = it.stat.name, stat = "0.${it.base_stat}f".toFloat())
+            increase = it.base_stat * 5
+
+            if (increase.toString().length < 3) {
+                stat = "0.0${it.base_stat * 5}f".toFloat()
+            } else {
+                stat = "0.${it.base_stat * 5}f".toFloat()
+            }
+
+            StatsBar(nameStat = it.stat.name, stat = stat)
         }
 
         Spacer(modifier = Modifier.weight(1f))

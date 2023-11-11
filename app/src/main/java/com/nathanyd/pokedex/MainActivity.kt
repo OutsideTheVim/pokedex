@@ -52,31 +52,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-/*
-@Composable
-fun testScreen(
-) {
-
-}
-
-
-@Composable
-fun ResultScreen(data: List<String>, modifier: Modifier = Modifier) {
-    Column {
-        data.forEach {
-            Text(text = it)
-        }
-    }
-}
-
-@Composable
-fun ErrorScreen(modifier: Modifier = Modifier) {
-    Text("Error")
-}
-
-
-@Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
-    Text("Loading")
-}
-*/

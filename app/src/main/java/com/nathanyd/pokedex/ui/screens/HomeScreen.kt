@@ -101,7 +101,8 @@ fun DefaultHomeScreen(
                     active = activeSearch,
                     onActiveChange = { activeSearch = it },
                     modifier = Modifier.padding(start = 24.dp, end = 24.dp),
-                    pokeData = data
+                    pokeData = data,
+                    navController = navController
                 )
                 ButtonSwitch(
                     isSwitched = isSwitched,
