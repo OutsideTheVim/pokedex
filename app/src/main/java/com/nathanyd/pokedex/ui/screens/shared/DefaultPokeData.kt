@@ -78,16 +78,17 @@ fun PokeIcon(id: Int, name: String, modifier: Modifier = Modifier) {
 
 //Name of the pokemon
 @Composable
-fun PokeName(name: String, fontSize: TextUnit) {
+fun PokeName(name: String, fontSize: TextUnit, modifier: Modifier = Modifier) {
     Text(
         text = name,
-        fontSize = fontSize
+        fontSize = fontSize,
+        modifier = modifier
     )
 }
 
 // water, grass etc. change background color matching result
 @Composable
-fun PokeType(type: String) {
+fun PokeType(type: String, modifier: Modifier = Modifier) {
 
     //grass: 0xFF027820
     //poison: 0xFF4d0245
@@ -98,7 +99,7 @@ fun PokeType(type: String) {
 
     Text(
         text = "",
-        Modifier
+        modifier
             .background(Color(correctColor))
             .size(20.dp)
     )

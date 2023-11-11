@@ -216,12 +216,14 @@ fun LoadingScreen(modifier: Modifier = Modifier, count: Int, amount: Int) {
     ) {
         LoadingImage()
         Spacer(modifier = Modifier.height(74.dp))
-        Text(
-            text = "$count/$amount",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(24.dp)
-        )
+        if (amount > 1) {
+            Text(
+                text = "$count/$amount",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(24.dp)
+            )
+        }
         LinearProgressIndicator()
     }
 }
