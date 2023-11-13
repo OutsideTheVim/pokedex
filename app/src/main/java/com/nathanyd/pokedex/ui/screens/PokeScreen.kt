@@ -197,12 +197,6 @@ fun PokeStatus(data: PokeData, navController: NavController) {
                         questionBox = true
                     }
             )
-            Text(
-                "Total Points:\n$totalPoints",
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 44.dp)
-            )
         }
     }
 }
