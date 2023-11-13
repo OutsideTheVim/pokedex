@@ -14,27 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.ImageLoader
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.size.OriginalSize
-import com.nathanyd.pokedex.data.PokeDataResponse
 import com.nathanyd.pokedex.ui.Navigation
-import com.nathanyd.pokedex.ui.PokeUiState
-import com.nathanyd.pokedex.ui.PokeViewModel
-import com.nathanyd.pokedex.ui.screens.DefaultHomeScreen
-import com.nathanyd.pokedex.ui.screens.DefaultPokeScreen
-import com.nathanyd.pokedex.ui.screens.shared.ErrorScreen
-import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
-import com.nathanyd.pokedex.ui.screens.shared.PokeLayout
 import com.nathanyd.pokedex.ui.theme.PokedexTheme
 
 class MainActivity : ComponentActivity() {

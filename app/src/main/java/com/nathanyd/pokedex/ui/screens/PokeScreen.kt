@@ -1,6 +1,7 @@
 package com.nathanyd.pokedex.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,8 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,16 +31,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nathanyd.pokedex.R
 import com.nathanyd.pokedex.data.PokeData
+import com.nathanyd.pokedex.ui.Pages
 import com.nathanyd.pokedex.ui.PokeScreenViewModel
 import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
@@ -51,6 +59,7 @@ import com.nathanyd.pokedex.ui.screens.shared.QuestionBox
 fun VerifyPokeScreen(
     pokeUiState: PokeUiState,
     pokeViewModel: PokeScreenViewModel = viewModel(),
+    navController: NavController,
     pokeId: Int?
 ) {
 
@@ -60,7 +69,8 @@ fun VerifyPokeScreen(
         is PokeUiState.Success -> {
             pokeUiState.getNames.forEach {
                 DefaultPokeScreen(
-                    data = it
+                    data = it,
+                    navController = navController
                 )
             }
         }
@@ -77,7 +87,7 @@ fun VerifyPokeScreen(
 
 //Screen for Pokemon info page
 @Composable
-fun DefaultPokeScreen(data: PokeData, modifier: Modifier = Modifier) {
+fun DefaultPokeScreen(data: PokeData, modifier: Modifier = Modifier, navController: NavController) {
 
     var isSwitched by rememberSaveable {
         mutableStateOf(false)
@@ -89,6 +99,9 @@ fun DefaultPokeScreen(data: PokeData, modifier: Modifier = Modifier) {
     ) {
         Box {
             PokeBackground()
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Return Arrow")
+            }
             if (isSwitched) PokeGif(
                 name = data.name,
                 modifier = Modifier
@@ -112,17 +125,22 @@ fun DefaultPokeScreen(data: PokeData, modifier: Modifier = Modifier) {
                 )
             }
         }
-        PokeStatus(data)
+        PokeStatus(data = data, navController = navController)
     }
 }
 
 //Pokemon information card
 @Composable
-fun PokeStatus(data: PokeData) {
+fun PokeStatus(data: PokeData, navController: NavController) {
 
     var questionBox: Boolean by remember {
         mutableStateOf(false)
     }
+
+    var stat: Float
+    var increase: Int
+
+    var totalPoints: Int = 0
 
     if (questionBox) QuestionBox(
         clicked = { questionBox = false },
@@ -147,10 +165,10 @@ fun PokeStatus(data: PokeData) {
             }
         }
 
-        var stat: Float
-        var increase: Int
-
         data.stats?.forEach {
+
+            totalPoints =+ it.base_stat
+
             increase = it.base_stat * 5
 
             if (increase.toString().length < 3) {
@@ -178,6 +196,12 @@ fun PokeStatus(data: PokeData) {
                     .clickable {
                         questionBox = true
                     }
+            )
+            Text(
+                "Total Points:\n$totalPoints",
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 44.dp)
             )
         }
     }

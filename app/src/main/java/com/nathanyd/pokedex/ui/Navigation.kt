@@ -43,6 +43,7 @@ fun Navigation() {
 
             VerifyPokeScreen(
                 pokeUiState = pokeViewModel.pokeScreenUiState,
+                navController = navController,
                 pokeId = pokeId
             )
         }

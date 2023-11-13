@@ -27,11 +27,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -41,18 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nathanyd.pokedex.R
 import com.nathanyd.pokedex.data.PokeData
 import com.nathanyd.pokedex.ui.Pages
-import com.nathanyd.pokedex.ui.PokeViewModel
-
-//App Layout
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PokeLayout() {
-}
 
 //Layout for Top Bar
 @OptIn(ExperimentalMaterial3Api::class)
