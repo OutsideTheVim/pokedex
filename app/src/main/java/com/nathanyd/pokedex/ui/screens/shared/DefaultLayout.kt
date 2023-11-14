@@ -6,10 +6,12 @@
 package com.nathanyd.pokedex.ui.screens.shared
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,11 +27,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -39,16 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.nathanyd.pokedex.R
 import com.nathanyd.pokedex.data.PokeData
-import com.nathanyd.pokedex.ui.PokeViewModel
-
-//App Layout
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PokeLayout() {
-}
+import com.nathanyd.pokedex.ui.Pages
 
 //Layout for Top Bar
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +74,8 @@ fun SearchBarLayout(
     onSearch: (String) -> Unit,
     active: Boolean,
     onActiveChange: (Boolean) -> Unit,
-    pokeData: List<PokeData>
+    pokeData: List<PokeData>,
+    navController: NavController
 ) {
     SearchBar(
         query = query,
@@ -98,7 +91,15 @@ fun SearchBarLayout(
             if (query.isNotEmpty()) {
                 for (data in pokeData) {
                     if (data.name.contains(query, ignoreCase = true)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { // nog betere oplossing voor maken
+                                    navController.navigate(
+                                        "${Pages.PokeData.name}/${data.id}"
+                                    )
+                                }) {
                             PokeIcon(
                                 id = data.id,
                                 name = data.name,
@@ -110,7 +111,15 @@ fun SearchBarLayout(
                 }
             } else {
                 pokeData.take(7).forEach { data ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { // nog betere oplossing voor maken
+                                navController.navigate(
+                                    "${Pages.PokeData.name}/${data.id}"
+                                )
+                            }) {
                         PokeIcon(
                             id = data.id,
                             name = data.name,

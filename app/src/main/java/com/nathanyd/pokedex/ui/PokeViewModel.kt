@@ -26,7 +26,7 @@ sealed interface PokeUiState {
 class PokeViewModel : ViewModel() {
 
     //Amount of pokemons that needs to be loaded
-    private var _amount by mutableIntStateOf(50)
+    private var _amount by mutableIntStateOf(200)
 
     var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading(0, _amount))
         private set
