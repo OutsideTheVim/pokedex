@@ -2,32 +2,21 @@
 
 package com.nathanyd.pokedex.ui.screens
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nathanyd.pokedex.data.PokeData
-import com.nathanyd.pokedex.data.PokeDataResponse
 import com.nathanyd.pokedex.ui.Pages
 import com.nathanyd.pokedex.ui.PokeUiState
 import com.nathanyd.pokedex.ui.PokeViewModel
@@ -84,11 +72,9 @@ fun DefaultHomeScreen(
     modifier: Modifier = Modifier
 ) {
     var querySearch by rememberSaveable { mutableStateOf("") }
-    var activeSearch by rememberSaveable { mutableStateOf(false) }
 
-    var isSwitched by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var activeSearch by rememberSaveable { mutableStateOf(false) }
+    var isSwitched by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -104,11 +90,11 @@ fun DefaultHomeScreen(
                     pokeData = data,
                     navController = navController
                 )
-                ButtonSwitch(
-                    isSwitched = isSwitched,
-                    onCheckChanged = { isSwitched = !isSwitched },
-                    modifier = Modifier.padding(8.dp)
-                )
+                    ButtonSwitch(
+                        isSwitched = isSwitched,
+                        onCheckChanged = { isSwitched = !isSwitched },
+                        modifier = Modifier.padding(8.dp)
+                    )
             }
         },
 
@@ -160,7 +146,11 @@ fun PokeCard(
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (isSwitched) PokeGif(name = pokemonData.name, Modifier.size(84.dp))
             if (!isSwitched) PokeImage(id = pokemonData.id, modifier = Modifier.size(84.dp))
-            PokeName(name = pokemonData.name, fontSize = 24.sp, modifier = Modifier.padding(start = 8.dp))
+            PokeName(
+                name = pokemonData.name,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(start = 8.dp)
+            )
             Spacer(Modifier.weight(1f))
             Card(modifier = Modifier.padding(end = 34.dp)) {
                 Row {

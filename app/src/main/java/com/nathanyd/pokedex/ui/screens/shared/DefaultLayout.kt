@@ -27,7 +27,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -46,25 +45,20 @@ import com.nathanyd.pokedex.ui.Pages
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarLayout(modifier: Modifier = Modifier) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CenterAlignedTopAppBar(
-            title = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            CenterAlignedTopAppBar(
+                title = {
                     Text(
                         text = stringResource(id = R.string.app_name),
                         fontSize = 34.sp,
                         fontWeight = FontWeight.Bold
                     )
-                }
-            },
-            modifier = modifier
-        )
-    }
-}
+                },
+                modifier = modifier
+            )
+        }
 
 //layout for searchbar
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarLayout(
     modifier: Modifier = Modifier,

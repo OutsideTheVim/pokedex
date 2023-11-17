@@ -1,6 +1,5 @@
 package com.nathanyd.pokedex.ui
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -9,7 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.nathanyd.pokedex.ui.screens.DefaultAppScreen
-import com.nathanyd.pokedex.ui.screens.DefaultPokeScreen
 import com.nathanyd.pokedex.ui.screens.VerifyPokeScreen
 
 //all pages in the app
@@ -17,7 +15,6 @@ enum class Pages {
     Home, PokeData
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
