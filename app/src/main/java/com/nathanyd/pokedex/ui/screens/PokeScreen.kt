@@ -1,7 +1,6 @@
 package com.nathanyd.pokedex.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,22 +29,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nathanyd.pokedex.R
 import com.nathanyd.pokedex.data.PokeData
-import com.nathanyd.pokedex.ui.Pages
 import com.nathanyd.pokedex.ui.PokeScreenViewModel
 import com.nathanyd.pokedex.ui.PokeUiState
-import com.nathanyd.pokedex.ui.PokeViewModel
 import com.nathanyd.pokedex.ui.screens.shared.ButtonSwitch
 import com.nathanyd.pokedex.ui.screens.shared.ErrorScreen
 import com.nathanyd.pokedex.ui.screens.shared.LoadingScreen
@@ -125,13 +119,13 @@ fun DefaultPokeScreen(data: PokeData, modifier: Modifier = Modifier, navControll
                 )
             }
         }
-        PokeStatus(data = data, navController = navController)
+        PokeStatus(data = data)
     }
 }
 
 //Pokemon information card
 @Composable
-fun PokeStatus(data: PokeData, navController: NavController) {
+fun PokeStatus(data: PokeData) {
 
     var questionBox: Boolean by remember {
         mutableStateOf(false)
@@ -139,8 +133,6 @@ fun PokeStatus(data: PokeData, navController: NavController) {
 
     var stat: Float
     var increase: Int
-
-    var totalPoints: Int = 0
 
     if (questionBox) QuestionBox(
         clicked = { questionBox = false },
@@ -166,15 +158,12 @@ fun PokeStatus(data: PokeData, navController: NavController) {
         }
 
         data.stats?.forEach {
-
-            totalPoints =+ it.base_stat
-
             increase = it.base_stat * 5
 
-            if (increase.toString().length < 3) {
-                stat = "0.0${it.base_stat * 5}f".toFloat()
+            stat = if (increase.toString().length < 3) {
+                "0.0${it.base_stat * 5}f".toFloat()
             } else {
-                stat = "0.${it.base_stat * 5}f".toFloat()
+                "0.${it.base_stat * 5}f".toFloat()
             }
 
             StatsBar(nameStat = it.stat.name, stat = stat)

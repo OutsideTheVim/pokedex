@@ -1,16 +1,12 @@
 package com.nathanyd.pokedex.ui
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nathanyd.pokedex.data.PokeData
-import com.nathanyd.pokedex.data.PokeDataResponse
-import com.nathanyd.pokedex.data.Type
-import com.nathanyd.pokedex.network.PokeApi
 import com.nathanyd.pokedex.network.PokeApi.pokemonService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,7 +22,7 @@ sealed interface PokeUiState {
 class PokeViewModel : ViewModel() {
 
     //Amount of pokemons that needs to be loaded
-    private var _amount by mutableIntStateOf(200)
+    private var _amount by mutableIntStateOf(100)
 
     var pokeUiState: PokeUiState by mutableStateOf(PokeUiState.Loading(0, _amount))
         private set
@@ -42,7 +38,7 @@ class PokeViewModel : ViewModel() {
                 val pokemonNames = mutableListOf<PokeData>()
 
                 for (i in 1.._amount) {
-                    var data = pokemonService.getName("$i")
+                    val data = pokemonService.getName("$i")
 
                     pokemonNames.add(PokeData(name = data.name, id = data.id, types = data.types))
                     pokeUiState = PokeUiState.Loading(i, _amount)
@@ -93,7 +89,7 @@ class PokeScreenViewModel : ViewModel() {
             pokeScreenUiState = try {
                 val pokemonNames = mutableListOf<PokeData>()
 
-                var data = pokemonService.getName("$id")
+                val data = pokemonService.getName("$id")
 
                 pokemonNames.add(
                     PokeData(
