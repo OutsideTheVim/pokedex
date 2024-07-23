@@ -7,7 +7,7 @@ Simple Pokedex app for my first Kotlin and Android project
 # Preview
 
 Full app preview
-
+(clickable)
 ![poke-app-video](https://github.com/OutsideTheVim/pokedex/assets/70163066/96764be7-f027-40d9-98fa-06402c1b87f2)
 --------------------------------------------
 
